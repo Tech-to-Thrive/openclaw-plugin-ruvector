@@ -3,7 +3,7 @@
  *
  * Long-term memory with vector search for AI conversations.
  * Uses RuVector server (Rust) over HTTP for storage and Gemini/OpenAI for embeddings.
- * Drop-in replacement for memory-milvus — same tools, same hooks, no subprocess.
+ * Long-term memory plugin for OpenClaw backed by RuVector.
  *
  * Architecture: TypeScript plugin → HTTP → RuVector server (localhost:6333)
  */
@@ -1026,7 +1026,7 @@ const memoryPlugin = {
       { name: "memory_reindex" },
     );
 
-    // 7. memory_status (NEW — not in milvus plugin)
+    // 7. memory_status
     api.registerTool(
       (_toolCtx) => ({
         name: "memory_status",

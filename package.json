@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/plugin-memory-ruvector",
   "version": "1.0.0",
-  "description": "OpenClaw memory plugin backed by RuVector — long-term memory with vector search, auto-recall/capture",
+  "description": "OpenClaw memory plugin backed by RuVector \u2014 long-term memory with vector search, auto-recall/capture",
   "type": "module",
   "license": "MIT",
   "author": "Tech to Thrive <hello@ttt.dev>",
@@ -21,8 +21,7 @@
   "main": "index.ts",
   "scripts": {
     "test": "vitest run --config vitest.config.ts",
-    "test:watch": "vitest --config vitest.config.ts",
-    "migrate": "tsx migration.ts"
+    "test:watch": "vitest --config vitest.config.ts"
   },
   "dependencies": {
     "@sinclair/typebox": "^0.34.0",
@@ -48,7 +47,6 @@
     "embeddings.ts",
     "types.ts",
     "config.ts",
-    "migration.ts",
     "LICENSE",
     "README.md"
   ]

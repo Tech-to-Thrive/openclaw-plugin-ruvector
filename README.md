@@ -1,8 +1,8 @@
 # @openclaw/plugin-memory-ruvector
 
-Long-term memory plugin for [OpenClaw](https://openclaw.dev) backed by [RuVector](https://github.com/Tech-to-Thrive/ruvector) — a high-performance vector database written in Rust.
+Long-term memory plugin for [OpenClaw](https://openclaw.dev) backed by [RuVector](https://github.com/ruvnet/RuVector) — a high-performance vector database written in Rust.
 
-Drop-in replacement for the `memory-milvus` plugin. Same tools, same hooks, zero subprocess overhead.
+Gives your AI agents persistent memory with semantic search, auto-recall, and auto-capture.
 
 ## Architecture
 
@@ -16,7 +16,7 @@ OpenClaw Gateway
        └── HTTP client → RuVector server (localhost:6333)
 ```
 
-**Key difference from memory-milvus:** No Python subprocess, no bridge protocol, no PID file management. Direct HTTP to a Rust server — sub-millisecond on localhost.
+**Key advantage:** Direct HTTP to a Rust vector database — sub-millisecond on localhost, no subprocesses, no overhead.
 
 ## Quick Start (End-to-End)
 
@@ -264,27 +264,6 @@ If the RuVector server becomes unreachable, the circuit breaker opens after 5 co
 - Hooks silently skip (never block the agent)
 - After cooldown, the circuit resets and retries
 
-## Migration from memory-milvus
-
-```bash
-# Ensure RuVector server is running, then:
-npx tsx migration.ts
-
-# Options:
-npx tsx migration.ts --milvus-db ~/.memsearch/milvus.db \
-                     --ruvector-uri http://localhost:6333 \
-                     --collection fleet_memory \
-                     --dimension 3072
-
-# Dry run (export only, don't import):
-npx tsx migration.ts --dry-run
-```
-
-The migration tool:
-1. Exports all records from Milvus Lite via the Python bridge
-2. Imports into RuVector with proper metadata mapping
-3. Verifies per-agent counts match
-
 ## Testing
 
 ```bash
@@ -314,7 +293,6 @@ The plugin communicates with RuVector via these endpoints:
 ├── embeddings.ts      # Embedding providers (Gemini, OpenAI via OpenAI SDK)
 ├── types.ts           # TypeScript interfaces
 ├── config.ts          # Config validation + defaults
-├── migration.ts       # Milvus → RuVector migration CLI
 ├── server/            # Rust server binary wrapper
 │   ├── Cargo.toml     # Depends on ruvector-server from crates.io
 │   └── src/main.rs    # Minimal server launcher (15 LOC)
