@@ -1,0 +1,55 @@
+{
+  "name": "@openclaw/plugin-memory-ruvector",
+  "version": "1.0.0",
+  "description": "OpenClaw memory plugin backed by RuVector — long-term memory with vector search, auto-recall/capture",
+  "type": "module",
+  "license": "MIT",
+  "author": "Tech to Thrive <hello@ttt.dev>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tech-to-Thrive/openclaw-plugin-ruvector.git"
+  },
+  "keywords": [
+    "openclaw",
+    "plugin",
+    "memory",
+    "ruvector",
+    "vector-search",
+    "embeddings",
+    "ai-memory"
+  ],
+  "main": "index.ts",
+  "scripts": {
+    "test": "vitest run --config vitest.config.ts",
+    "test:watch": "vitest --config vitest.config.ts",
+    "migrate": "tsx migration.ts"
+  },
+  "dependencies": {
+    "@sinclair/typebox": "^0.34.0",
+    "openai": "^6.0.0"
+  },
+  "devDependencies": {
+    "vitest": "^4.0.0"
+  },
+  "peerDependencies": {
+    "openclaw": ">=1.0.0"
+  },
+  "openclaw": {
+    "extensions": [
+      "./index.ts"
+    ]
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "files": [
+    "index.ts",
+    "client.ts",
+    "embeddings.ts",
+    "types.ts",
+    "config.ts",
+    "migration.ts",
+    "LICENSE",
+    "README.md"
+  ]
+}
