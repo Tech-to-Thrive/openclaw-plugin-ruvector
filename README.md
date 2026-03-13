@@ -21,8 +21,25 @@ OpenClaw Gateway
 ## Prerequisites
 
 - **Node.js** >= 20
+- **Rust toolchain** (for building the server) or a pre-built RuVector server
 - **RuVector server** running (default: `http://localhost:6333`)
 - **Embedding API key** (Google Gemini by default, or any OpenAI-compatible provider)
+
+## Quick Start — Server
+
+This repo includes a minimal Rust server wrapper in `server/`:
+
+```bash
+# Build and run the RuVector server
+cd server
+cargo build --release
+./target/release/ruvector-server
+
+# Or with custom host/port:
+RUVECTOR_HOST=127.0.0.1 RUVECTOR_PORT=6333 ./target/release/ruvector-server
+```
+
+The server uses the [`ruvector-server`](https://crates.io/crates/ruvector-server) crate (v0.1.30) from crates.io.
 
 ## Installation
 
@@ -258,6 +275,9 @@ The plugin communicates with RuVector via these endpoints:
 ├── types.ts           # TypeScript interfaces
 ├── config.ts          # Config validation + defaults
 ├── migration.ts       # Milvus → RuVector migration CLI
+├── server/            # Rust server binary wrapper
+│   ├── Cargo.toml     # Depends on ruvector-server from crates.io
+│   └── src/main.rs    # Minimal server launcher (15 LOC)
 ├── package.json
 ├── tsconfig.json
 ├── vitest.config.ts
