@@ -98,11 +98,13 @@ Or add to your OpenClaw config:
 | `embedding.baseUrl` | string | Gemini endpoint | Base URL for embedding API |
 | `embedding.dimensions` | number | auto-detected | Vector dimensions |
 | `autoRecall` | boolean | `true` | Inject relevant memories before each prompt |
-| `autoCapture` | boolean | `false` | Auto-capture important info from conversations |
-| `recallLimit` | number | `3` | Max memories injected per prompt |
-| `recallMinScore` | number | `0.01` | Minimum similarity score for recall |
-| `captureMaxChars` | number | `500` | Max message length eligible for auto-capture |
+| `autoCapture` | boolean | `true` | Auto-capture important info from conversations |
+| `recallLimit` | number | `5` | Max memories injected per prompt |
+| `recallMinScore` | number | `0.3` | Minimum similarity score for recall |
+| `captureMaxChars` | number | `2000` | Max message length eligible for auto-capture |
 | `sensitiveAgents` | string[] | `[]` | Additional agent IDs to privacy-isolate |
+| `sensitiveUri` | string | *(unset)* | Separate RuVector URI for sensitive agents (true data isolation) |
+| `sensitiveCollectionName` | string | same as `collectionName` | Collection name on the sensitive server |
 | `ttlEnabled` | boolean | `true` | Enable time-to-live for memories |
 | `importanceDefault` | number | `0.5` | Default importance score (0-1) |
 
@@ -231,6 +233,25 @@ Memories are scoped by `agent_id` — each agent only sees its own memories plus
 - Their memories never appear in cross-fleet searches
 - They cannot see other agents' memories
 - Add more via the `sensitiveAgents` config option
+
+### True Data Isolation (separate RuVector instance)
+
+For maximum security, sensitive agents can use a completely separate RuVector server — their vectors never touch the main database:
+
+```json
+{
+  "sensitiveAgents": ["finance", "hr", "payroll"],
+  "sensitiveUri": "http://localhost:6334",
+  "sensitiveCollectionName": "sensitive_memory"
+}
+```
+
+Run a second RuVector server on a different port:
+```bash
+RUVECTOR_PORT=6334 ruvector-server
+```
+
+When `sensitiveUri` is set, any agent in the `sensitiveAgents` list automatically routes all reads and writes to the isolated instance. Non-sensitive agents never connect to it.
 
 **Shared memories** (via `memory_share`) can be scoped to:
 - `"fleet"` — visible to all non-sensitive agents

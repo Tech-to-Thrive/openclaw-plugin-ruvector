@@ -20,6 +20,8 @@ export type RuVectorMemoryConfig = {
   recallLimit: number;
   recallMinScore: number;
   sensitiveAgents?: string[];
+  sensitiveUri?: string;
+  sensitiveCollectionName?: string;
   ttlEnabled: boolean;
   importanceDefault: number;
 };
@@ -30,9 +32,9 @@ const DEFAULT_URI = "http://localhost:6333";
 const DEFAULT_COLLECTION = "fleet_memory";
 const DEFAULT_MODEL = "gemini-embedding-2-preview";
 const DEFAULT_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai";
-export const DEFAULT_CAPTURE_MAX_CHARS = 500;
-const DEFAULT_RECALL_LIMIT = 3;
-const DEFAULT_RECALL_MIN_SCORE = 0.01;
+export const DEFAULT_CAPTURE_MAX_CHARS = 2000;
+const DEFAULT_RECALL_LIMIT = 5;
+const DEFAULT_RECALL_MIN_SCORE = 0.3;
 const DEFAULT_IMPORTANCE = 0.5;
 
 const EMBEDDING_DIMENSIONS: Record<string, number> = {
@@ -102,6 +104,7 @@ export const ruvectorMemoryConfigSchema = {
         "uri", "collectionName", "embedding",
         "autoCapture", "autoRecall", "captureMaxChars",
         "recallLimit", "recallMinScore", "sensitiveAgents",
+        "sensitiveUri", "sensitiveCollectionName",
         "ttlEnabled", "importanceDefault",
       ],
       "memory-ruvector config",
@@ -175,12 +178,18 @@ export const ruvectorMemoryConfigSchema = {
             : DEFAULT_BASE_URL,
         dimensions: explicitDimensions,
       },
-      autoCapture: cfg.autoCapture === true,
+      autoCapture: cfg.autoCapture !== false,
       autoRecall: cfg.autoRecall !== false,
       captureMaxChars: captureMaxChars ?? DEFAULT_CAPTURE_MAX_CHARS,
       recallLimit,
       recallMinScore,
       sensitiveAgents,
+      sensitiveUri:
+        typeof cfg.sensitiveUri === "string" ? cfg.sensitiveUri : undefined,
+      sensitiveCollectionName:
+        typeof cfg.sensitiveCollectionName === "string"
+          ? cfg.sensitiveCollectionName
+          : undefined,
       ttlEnabled: cfg.ttlEnabled !== false,
       importanceDefault,
     };
@@ -249,6 +258,18 @@ export const ruvectorMemoryConfigSchema = {
     sensitiveAgents: {
       label: "Additional Sensitive Agents",
       help: "Extra agent IDs to privacy-isolate (added to built-in: finance, hr, home, vendor)",
+      advanced: true,
+    },
+    sensitiveUri: {
+      label: "Sensitive Agent RuVector URI",
+      placeholder: "http://localhost:6334",
+      help: "Separate RuVector server for sensitive agents (true data isolation). If unset, sensitive agents use the main server with metadata filtering.",
+      advanced: true,
+    },
+    sensitiveCollectionName: {
+      label: "Sensitive Collection Name",
+      placeholder: "sensitive_memory",
+      help: "Collection name on the sensitive RuVector instance (default: same as collectionName)",
       advanced: true,
     },
     ttlEnabled: {

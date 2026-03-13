@@ -90,12 +90,12 @@ describe("shouldCapture()", () => {
   });
 
   it("rejects too-long text", () => {
-    expect(shouldCapture("x".repeat(600))).toBe(false);
+    expect(shouldCapture("x".repeat(2500))).toBe(false);
   });
 
   it("allows longer assistant messages", () => {
     const longText = "I prefer " + "x".repeat(1500);
-    expect(shouldCapture(longText, { role: "user" })).toBe(false);
+    expect(shouldCapture(longText, { role: "user" })).toBe(true);
     expect(shouldCapture(longText, { role: "assistant" })).toBe(true);
   });
 

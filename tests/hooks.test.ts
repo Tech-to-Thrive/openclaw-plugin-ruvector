@@ -63,7 +63,7 @@ describe("Auto-capture hook helpers", () => {
     });
 
     it("user messages reject above default threshold", () => {
-      const text = "I prefer " + "x".repeat(600);
+      const text = "I prefer " + "x".repeat(2500);
       expect(shouldCapture(text, { role: "user" })).toBe(false);
     });
 

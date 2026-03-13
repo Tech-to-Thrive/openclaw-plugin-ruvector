@@ -2,7 +2,7 @@
 name = "ruvector-server-bin"
 version = "0.1.0"
 edition = "2021"
-description = "Standalone RuVector server binary for the openclaw-plugin-ruvector stack"
+description = "Standalone RuVector server binary — patched with delete endpoints and similarity scores"
 license = "MIT"
 
 [[bin]]
@@ -10,6 +10,6 @@ name = "ruvector-server"
 path = "src/main.rs"
 
 [dependencies]
-ruvector-server = "0.1.30"
+ruvector-server = { path = "ruvector-server" }
 tokio = { version = "1", features = ["full"] }
 tracing-subscriber = "0.3"

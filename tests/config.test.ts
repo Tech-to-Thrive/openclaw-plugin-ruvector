@@ -22,9 +22,9 @@ describe("ruvectorMemoryConfigSchema", () => {
     expect(cfg.collectionName).toBe("fleet_memory");
     expect(cfg.embedding.model).toBe("gemini-embedding-2-preview");
     expect(cfg.autoRecall).toBe(true);
-    expect(cfg.autoCapture).toBe(false);
-    expect(cfg.recallLimit).toBe(3);
-    expect(cfg.recallMinScore).toBe(0.01);
+    expect(cfg.autoCapture).toBe(true);
+    expect(cfg.recallLimit).toBe(5);
+    expect(cfg.recallMinScore).toBe(0.3);
     expect(cfg.ttlEnabled).toBe(true);
     expect(cfg.importanceDefault).toBe(0.5);
   });
