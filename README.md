@@ -18,6 +18,25 @@ OpenClaw Gateway
 
 **Key difference from memory-milvus:** No Python subprocess, no bridge protocol, no PID file management. Direct HTTP to a Rust server — sub-millisecond on localhost.
 
+## Quick Start (End-to-End)
+
+```bash
+# Clone, build server, install plugin, start everything:
+git clone https://github.com/Tech-to-Thrive/openclaw-plugin-ruvector.git
+cd openclaw-plugin-ruvector
+chmod +x setup.sh && ./setup.sh
+```
+
+The setup script handles everything:
+1. ✅ Checks prerequisites (Rust, Node.js 20+)
+2. ✅ Builds the RuVector server from source (`server/`)
+3. ✅ Installs `ruvector-server` to `/usr/local/bin/`
+4. ✅ Installs npm dependencies
+5. ✅ Symlinks into `~/.openclaw/extensions/memory-ruvector`
+6. ✅ Optionally installs a macOS launchd service for auto-start
+7. ✅ Starts the server
+8. ✅ Prints the config snippet to add to `openclaw.json`
+
 ## Prerequisites
 
 - **Node.js** >= 20
